@@ -1,0 +1,396 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-form {
+            background: white;
+            padding: 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .login-form h2 {
+            text-align: center;
+            color: white;
+            background-color: #4CAF50;
+            padding: 1em;
+            margin: 0;
+        }
+
+        .login-form-content {
+            padding: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 1em;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+
+        .form-group input {
+            width: calc(100% - 20px);
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding-top: 1em;
+            border-top: 1px solid #ccc;
+        }
+
+        .form-actions button {
+            padding: 0.75em 1.5em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-actions .login {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .form-actions .register {
+            background-color: #ccc;
+            color: black;
+        }
+
+        .form-actions .back {
+            background-color: #ccc;
+            color: black;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1em;
+        }
+
+        .register-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Customer Login</h1>
+    </header>
+    <main>
+        <div class="login-form" role="form">
+            <h2>Login</h2>
+            <div class="login-form-content">
+                <div class="form-group">
+                    <label for="loginUserId">User Id <span class="mandatory">*</span></label>
+                    <input type="text" id="loginUserId" placeholder="User Id" required aria-required="true">
+                    <div class="error-message" id="loginUserIdError" aria-live="polite"></div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password <span class="mandatory">*</span></label>
+                    <input type="password" id="loginPassword" placeholder="Password" required aria-required="true">
+                    <div class="error-message" id="loginPasswordError" aria-live="polite"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="login" onclick="loginCustomer()">Login</button>
+                    <button type="button" class="register" onclick="navigateToRegistration()">Register</button>
+                    <button type="button" class="back" onclick="goHome()">Back</button>
+                </div>
+                <div class="register-link">
+                    <p>New user? <a href="#" onclick="navigateToRegistration()">Click here to register</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function loginCustomer() {
+            // Clear previous error messages
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(element => element.innerText = '');
+
+            // Validate inputs
+            const userId = document.getElementById('loginUserId').value;
+            const password = document.getElementById('loginPassword').value;
+
+            let isValid = true;
+
+            // User ID validation
+            if (userId.trim() === '') {
+                document.getElementById('loginUserIdError').innerText = 'User ID is required.';
+                isValid = false;
+            }
+
+            // Password validation
+            if (password.trim() === '') {
+                document.getElementById('loginPasswordError').innerText = 'Password is required.';
+                isValid = false;
+            }
+
+            // Predefined credentials
+            const validCredentials = [
+                { userId: '24BIL1', password: 'Hello@12', username: 'Shivam' },
+                { userId: '24BIL2', password: 'Hello@12', username: 'Hardik' },
+                { userId: '24BIL3', password: 'Hello@12', username: 'Tejas' }
+            ];
+
+            // Check if credentials match
+            const user = validCredentials.find(
+                cred => cred.userId === userId && cred.password === password
+            );
+
+            if (isValid) {
+                if (user) {
+                    window.location.href = `dashboard.html?username=${encodeURIComponent(user.username)}`;
+                } else {
+                    document.getElementById('loginUserIdError').innerText = 'Invalid User ID or Password.';
+                }
+            }
+        }
+
+        function navigateToRegistration() {
+            window.location.href = 'register.html'; // Redirect to the registration page
+        }
+
+        function goHome() {
+            window.location.href = 'index.html'; // Redirect to the homepage
+        }
+    </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-form {
+            background: white;
+            padding: 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .login-form h2 {
+            text-align: center;
+            color: white;
+            background-color: #4CAF50;
+            padding: 1em;
+            margin: 0;
+        }
+
+        .login-form-content {
+            padding: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 1em;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+
+        .form-group input {
+            width: calc(100% - 20px);
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding-top: 1em;
+            border-top: 1px solid #ccc;
+        }
+
+        .form-actions button {
+            padding: 0.75em 1.5em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-actions .login {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .form-actions .register, .form-actions .back {
+            background-color: #ccc;
+            color: black;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1em;
+        }
+
+        .register-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .mandatory {
+            color: red; /* Set the color of asterisk to red */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Customer Login</h1>
+    </header>
+    <main>
+        <div class="login-form" role="form">
+            <h2>Login</h2>
+            <div class="login-form-content">
+                <div class="form-group">
+                    <label for="loginUserId">User Id <span class="mandatory">*</span></label>
+                    <input type="text" id="loginUserId" placeholder="User Id" required aria-required="true">
+                    <div class="error-message" id="loginUserIdError" aria-live="polite"></div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password <span class="mandatory">*</span></label>
+                    <input type="password" id="loginPassword" placeholder="Password" required aria-required="true">
+                    <div class="error-message" id="loginPasswordError" aria-live="polite"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="login" onclick="loginCustomer()">Login</button>
+                    <button type="button" class="register" onclick="navigateToRegistration()">Register</button>
+                    <button type="button" class="back" onclick="goHome()">Back</button>
+                </div>
+                <div class="register-link">
+                    <p>New user? <a href="#" onclick="navigateToRegistration()">Click here to register</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function loginCustomer() {
+            // Clear previous error messages
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(element => element.innerText = '');
+
+            // Validate inputs
+            const userId = document.getElementById('loginUserId').value;
+            const password = document.getElementById('loginPassword').value;
+
+            let isValid = true;
+
+            // User ID validation
+            if (userId.trim() === '') {
+                document.getElementById('loginUserIdError').innerText = 'User ID is required.';
+                isValid = false;
+            }
+
+            // Password validation
+            if (password.trim() === '') {
+                document.getElementById('loginPasswordError').innerText = 'Password is required.';
+                isValid = false;
+            }
+
+            // Here you would typically make an API call to validate the credentials against a database
+            if (isValid) {
+                // Simulating a successful login for demonstration purposes
+                const isAuthenticated = false; // Change this to true to simulate successful login
+
+                if (isAuthenticated) {
+                    // Redirect to the dashboard if authentication is successful
+                    window.location.href = `dashboard.html?username=${encodeURIComponent(userId)}`;
+                } else {
+                    document.getElementById('loginUserIdError').innerText = 'Invalid User ID or Password.';
+                }
+            }
+        }
+
+        function navigateToRegistration() {
+            window.location.href = 'register.html'; // Redirect to the registration page
+        }
+
+        function goHome() {
+            window.location.href = 'index.html'; // Redirect to the homepage
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Bill Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #575757;
+        }
+
+        nav ul li ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #333;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            min-width: 160px;
+        }
+
+        nav ul li:hover ul, nav ul li:focus-within ul {
+            display: block;
+        }
+
+        main {
+            padding: 2em;
+            text-align: center;
+            flex: 1;
+            background-image: url('ElectricityBill.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            width: 100%;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1em;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer .social-media a {
+            margin: 0 0.5em;
+        }
+
+        .quote {
+            font-size: 1.5em;
+            font-style: italic;
+            margin: 2em 0;
+            text-align: center;
+        }
+
+        .benefits {
+            text-align: left;
+            margin: 2em auto;
+            padding: 1em;
+            background-color: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            max-width: 600px;
+            color: white;
+        }
+
+        .benefits h3 {
+            font-size: 1.75em;
+            color: #4CAF50;
+            margin-bottom: 0.5em;
+        }
+
+        .benefits ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits li {
+            padding: 0.5em 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .benefits li:before {
+            content: "\2713";
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 0.5em;
+        }
+
+        .benefits li:not(:last-child) {
+            border-bottom: 1px solid #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Electricity Bill Management</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="goHome()">Home</a></li>
+            <li><a href="#" onclick="goAbout()">About</a></li>
+            <li>
+                <a href="#">Support</a>
+                <ul>
+                    <li><a href="#" onclick="registerComplaint()">Register Complaint</a></li>
+                    <li><a href="#" onclick="complaintStatus()">Complaint Status</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" id="paymentLink" style="display:none;">Payment</a>
+                <ul id="paymentSubMenu" style="display:none;">
+                    <li><a href="#" onclick="payBill()">Pay Bill</a></li>
+                    <li><a href="#" onclick="viewBills()">View Bills</a></li>
+                    <li><a href="#" onclick="viewUsage()">Usage History</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" id="loginRegisterLink">Login/Register</a>
+                <ul id="loginRegisterSubMenu">
+                    <li><a href="#" onclick="login()">Login</a></li>
+                    <li><a href="#" onclick="register()">Register</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main>
+        <h2>Welcome to the Electricity Bill Management System</h2>
+        <blockquote class="quote">
+            "With great power comes an even greater Electricity Bill." - Unknown
+        </blockquote>
+        <div class="benefits">
+            <h3>Benefits of Using Our System</h3>
+            <ul>
+                <li>Easy bill payment and management</li>
+                <li>Convenient access to usage history</li>
+                <li>Quick and efficient complaint registration and tracking</li>
+                <li>User-friendly interface for easy navigation</li>
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <p><a href="#">About Us</a> | <a href="#">Contact Us</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <div class="social-media">
+            <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">LinkedIn</a>
+        </div>
+    </footer>
+    <script>
+        // Frontend will call backend to determine auth status and store token in localStorage
+        const API_BASE = 'http://localhost:8080/api';
+
+        async function authStatus() {
+            const token = localStorage.getItem('authToken');
+            try {
+                const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+                const res = await fetch(API_BASE + '/auth/status', { headers });
+                const j = await res.json();
+                return j;
+            } catch (e) {
+                console.error('Auth status check failed', e);
+                return { loggedIn: false };
+            }
+        }
+
+        async function updateNav() {
+            const status = await authStatus();
+            const loggedIn = !!status.loggedIn;
+            if (loggedIn) {
+                document.getElementById('paymentLink').style.display = 'block';
+                document.getElementById('paymentSubMenu').style.display = 'block';
+                document.getElementById('loginRegisterLink').style.display = 'none';
+                document.getElementById('loginRegisterSubMenu').style.display = 'none';
+            } else {
+                document.getElementById('paymentLink').style.display = 'none';
+                document.getElementById('paymentSubMenu').style.display = 'none';
+                document.getElementById('loginRegisterLink').style.display = 'block';
+                document.getElementById('loginRegisterSubMenu').style.display = 'none';
+            }
+        }
+
+        function toggleDropdown() {
+            const submenu = document.getElementById('loginRegisterSubMenu');
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function goHome() { window.location.href = 'index.html'; }
+        function goAbout() { window.location.href = 'about.html'; }
+
+        function requireLoginAndGo(url) {
+            authStatus().then(s => {
+                if (s.loggedIn) window.location.href = url;
+                else { alert('Please log in to access this page.'); window.location.href = 'login.html'; }
+            });
+        }
+
+        function payBill() { requireLoginAndGo('payBill.html'); }
+        function viewBills() { requireLoginAndGo('viewBills.html'); }
+        function viewUsage() { requireLoginAndGo('viewUsage.html'); }
+
+        function registerComplaint() { window.location.href = 'registerComplaint.html'; }
+        function complaintStatus() { window.location.href = 'complaintStatus.html'; }
+
+        function login() { window.location.href = 'login.html'; }
+        function register() { window.location.href = 'register.html'; }
+
+        // Add event listener for dropdown toggle on login/register link
+        document.getElementById('loginRegisterLink').addEventListener('click', toggleDropdown);
+
+        // Call updateNav() on page load
+        window.addEventListener('load', updateNav);
+    </script>
+</body>
+</html>

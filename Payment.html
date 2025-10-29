@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Screen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .logout {
+            float: right;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px 15px;
+            margin: 10px;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .payment-header h2 {
+            margin: 0;
+        }
+        .payment-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .payment-form {
+            width: 60%;
+        }
+        .payment-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .payment-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .payment-method {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .payment-method img {
+            margin: 0 10px;
+        }
+        .payment-amount {
+            width: 30%;
+            text-align: right;
+            font-size: 1.2em;
+            padding-top: 30px;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .cancel-button {
+            background-color: #f44336;
+        }
+        .transaction-details {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f4f4f4;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .download-link {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .method-label {
+            text-decoration: underline;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bill Payment</h1>
+    </header>
+    <nav>
+        <a href="dashboard.html">Home</a>
+        <a href="paybill.html">Pay Bill</a>
+        <a href="registercomplaint.html">Register Complaint</a>
+        <a href="complaintStatus.html">Complaint Status</a>
+        <button class="logout" onclick="logout()">Logout</button>
+    </nav>
+    <div class="container">
+        <div class="payment-header">
+            <h2>Payment Screen</h2>
+        </div>
+        <div class="payment-details">
+            <div class="payment-form">
+                <div id="payment-method">
+                    <label id="method-label" class="method-label">Pay by Debit Card</label>
+                    <div class="payment-method">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" width="40">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="MasterCard" width="40">
+                    </div>
+                </div>
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" maxlength="19" placeholder="Enter card number" required>
+
+                <label for="expiration-date">Expiration Date</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="expiration-month" placeholder="Month" maxlength="2" required>
+                    <input type="text" id="expiration-year" placeholder="Year" maxlength="4" required>
+                </div>
+
+                <label for="cvv">CVV/CVC</label>
+                <input type="text" id="cvv" placeholder="CVV/CVC" maxlength="3" required>
+
+                <label for="card-holder-name">Card Holder Name</label>
+                <input type="text" id="card-holder-name" placeholder="Enter card holder name" required>
+
+                <div class="button-container">
+                    <button class="button" onclick="makePayment()">Make Payment</button>
+                    <button class="button cancel-button" onclick="cancel()">Cancel</button>
+                </div>
+            </div>
+            <div class="payment-amount">
+                <p>Payment Amount: ₹ 2,028.00</p>
+            </div>
+        </div>
+        <div class="transaction-details" id="transaction-details">
+            <h3>Transaction Details</h3>
+            <p>Transaction ID: <span id="transaction-id"></span></p>
+            <p>Card Holder: <span id="transaction-card-holder"></span></p>
+            <p>Amount Paid: <span id="transaction-amount"></span></p>
+            <a href="#" id="download-link" class="download-link">Download Receipt</a>
+        </div>
+    </div>
+    <script>
+        function logout() {
+            alert("Logged out");
+            window.location.href = 'index.html';  // Redirect to index.html
+        }
+
+        function makePayment() {
+            const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+            const expirationMonth = document.getElementById('expiration-month').value;
+            const expirationYear = document.getElementById('expiration-year').value;
+            const cvv = document.getElementById('cvv').value;
+            const cardHolderName = document.getElementById('card-holder-name').value;
+
+            if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+                alert('Please enter a valid 16-digit card number.');
+                return;
+            }
+
+            if (parseInt(expirationMonth) < 1 || parseInt(expirationMonth) > 12 || isNaN(expirationMonth)) {
+                alert('Please enter a valid expiration month.');
+                return;
+            }
+
+            if (expirationYear.length !== 4 || isNaN(expirationYear)) {
+                alert('Please enter a valid 4-digit expiration year.');
+                return;
+            }
+
+            if (cvv.length !== 3 || isNaN(cvv)) {
+                alert('Please enter a valid 3-digit CVV.');
+                return;
+            }
+
+            if (cardHolderName.length < 10 || /[^a-zA-Z\s]/.test(cardHolderName)) {
+                alert('Please enter a valid card holder name with a minimum of 10 characters.');
+                return;
+            }
+
+            const transactionId = 'TXN' + Math.floor(Math.random() * 1000000000);
+            const transactionDetailsDiv = document.getElementById('transaction-details');
+            const transactionIdSpan = document.getElementById('transaction-id');
+            const transactionCardHolderSpan = document.getElementById('transaction-card-holder');
+            const transactionAmountSpan = document.getElementById('transaction-amount');
+            const downloadLink = document.getElementById('download-link');
+
+            transactionIdSpan.textContent = transactionId;
+            transactionCardHolderSpan.textContent = cardHolderName;
+            transactionAmountSpan.textContent = '₹ 2,028.00';
+
+            const receiptContent = `
+                Transaction ID: ${transactionId}\n
+                Card Holder: ${cardHolderName}\n
+                Amount Paid: ₹ 2,028.00
+            `;
+            const blob = new Blob([receiptContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            downloadLink.href = url;
+            downloadLink.download = `${transactionId}_bill.txt`;
+
+            transactionDetailsDiv.style.display = 'block';
+        }
+
+        function cancel() {
+            document.getElementById('card-number').value = '';
+            document.getElementById('expiration-month').value = '';
+            document.getElementById('expiration-year').value = '';
+            document.getElementById('cvv').value = '';
+            document.getElementById('card-holder-name').value = '';
+            document.getElementById('transaction-details').style.display = 'none';
+        }
+
+        const cardNumberInput = document.getElementById('card-number');
+        cardNumberInput.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 16) value = value.slice(0, 16);
+            const formattedValue = value.match(/.{1,4}/g)?.join(' ') || '';
+            e.target.value = formattedValue;
+        });
+
+        const cvvInput = document.getElementById('cvv');
+        cvvInput.addEventListener('input', function (e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+            if (e.target.value.length > 3) {
+                e.target.value = e.target.value.slice(0, 3);
+            }
+        });
+
+        const cardHolderNameInput = document.getElementById('card-holder-name');
+        cardHolderNameInput.addEventListener('input', function (e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+        });
+    </script>
+</body>
+</html>

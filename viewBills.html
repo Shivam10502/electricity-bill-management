@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick EBill</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #333;
+        }
+
+        .header .user {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .user .welcome {
+            margin-right: 10px;
+        }
+
+        .header .user .logout {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+        }
+
+        nav {
+            background-color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #575757;
+        }
+
+        nav ul li ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: rgba(51, 51, 51, 0.8);
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            min-width: 160px;
+        }
+
+        nav ul li ul li a {
+            padding: 14px 20px;
+            text-align: left;
+        }
+
+        nav ul li:hover ul {
+            display: block;
+        }
+
+        .view-bill-container {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .view-bill-container h2 {
+            margin: 0;
+        }
+
+        .view-bill-container .arrow {
+            font-size: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        .total-amount {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: right;
+        }
+
+        .total-amount .amount {
+            font-weight: bold;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 150px;
+            text-align: center;
+            margin: 0 auto;
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+
+            nav ul li a {
+                padding: 10px 15px;
+            }
+
+            nav ul li ul li a {
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <h1>Quick EBill</h1>
+            <div class="user">
+                <span class="welcome">Welcome, <span id="username">User</span></span>
+                <button class="logout" onclick="logout()">LOGOUT</button>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html" onclick="navigate('dashboard.html')">Home</a></li>
+                <li><a href="payBill.html" onclick="navigate('payBill.html')">Pay Bill</a></li>
+                <li><a href="registerComplaint.html" onclick="navigate('registerComplaint.html')">Register Complaint</a></li>
+                <li><a href="complaintStatus.html" onclick="navigate('complaintStatus.html')">Complaint Status</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="view-bill-container">
+            <h2>View Bill & Pay</h2>
+            <span class="arrow">></span>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Consumer Number</th>
+                    <th>Select</th>
+                    <th>Due Amount (₹)</th>
+                    <th>Payable (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1134567890223</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" data-amount="1500.00" onchange="updateTotal()">
+                    </td>
+                    <td>1,500.00</td>
+                    <td>1,500.00</td>
+                </tr>
+                <tr>
+                    <td>5678345212321</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" data-amount="500.00" onchange="updateTotal()">
+                    </td>
+                    <td>500.00</td>
+                    <td>500.00</td>
+                </tr>
+                <tr>
+                    <td>1122334455662</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" data-amount="2028.00" onchange="updateTotal()">
+                    </td>
+                    <td>2,028.00</td>
+                    <td>2,028.00</td>
+                </tr>
+                <tr>
+                    <td>9876543210123</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" data-amount="1580.00" onchange="updateTotal()">
+                    </td>
+                    <td>1,580.00</td>
+                    <td>1,580.00</td>
+                </tr>
+                <tr>
+                    <td>1928374650283</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" data-amount="3200.00" onchange="updateTotal()">
+                    </td>
+                    <td>3,200.00</td>
+                    <td>3,200.00</td>
+                </tr>
+                <tr>
+                    <td>1029384756574</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" data-amount="450.00" onchange="updateTotal()">
+                    </td>
+                    <td>450.00</td>
+                    <td>450.00</td>
+                </tr>
+                <tr>
+                    <td>5647382910123</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" data-amount="760.00" onchange="updateTotal()">
+                    </td>
+                    <td>760.00</td>
+                    <td>760.00</td>
+                </tr>
+                <tr>
+                    <td>9081726354012</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" data-amount="1230.00" onchange="updateTotal()">
+                    </td>
+                    <td>1,230.00</td>
+                    <td>1,230.00</td>
+                </tr>
+                <tr>
+                    <td>1928374650284</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" data-amount="2890.00" onchange="updateTotal()">
+                    </td>
+                    <td>2,890.00</td>
+                    <td>2,890.00</td>
+                </tr>
+                <tr>
+                    <td>1827364510293</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" data-amount="3750.00" onchange="updateTotal()">
+                    </td>
+                    <td>3,750.00</td>
+                    <td>3,750.00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="total-amount">
+            Total Amount Payable <span class="amount">₹ 0.00</span>
+        </div>
+
+        <button class="button" onclick="proceedToPay()">Proceed to Pay</button>
+    </div>
+
+    <script>
+        function logout() {
+            alert("Logged out");
+            window.location.href = 'login.html'; // Redirect to the login page
+        }
+
+        function updateTotal() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let total = 0;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    total += parseFloat(checkbox.getAttribute('data-amount'));
+                }
+            });
+            document.querySelector('.total-amount .amount').innerText = `₹ ${total.toFixed(2)}`;
+        }
+
+        function proceedToPay() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('userId');
+            window.location.href = `payBill.html?userId=${userId}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('userId');
+            const userNames = {
+                '24BIL1': 'Shivam',
+                '24BIL2': 'Hardik',
+                '24BIL3': 'Tejas'
+            };
+
+            if (userNames[userId]) {
+                document.getElementById('username').innerText = userNames[userId];
+            }
+        });
+
+        function navigate(page) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('userId');
+            window.location.href = `${page}?userId=${userId}`;
+        }
+    </script>
+</body>
+</html>

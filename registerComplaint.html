@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register Complaint/Service</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #dfe9f3, #ffffff); /* Gradient background */
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.5s; /* Smooth transition for background color change */
+    }
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 2.5em;
+    }
+    .right-side {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    .navbar {
+      background-color: #4CAF50;
+      padding: 10px 0;
+      text-align: center;
+    }
+    .navbar h1 {
+      color: white;
+      margin: 0;
+    }
+    .menu {
+      background-color: #333;
+      overflow: hidden;
+      text-align: center;
+    }
+    .menu a {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    .menu a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .details > div {
+      width: 48%;
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 16px;
+      background-color: #f9f9f9;
+      transition: border-color 0.3s;
+    }
+    input[type="text"]:focus,
+    textarea:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+    textarea {
+      height: 120px;
+      resize: vertical;
+    }
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 16px;
+      background-color: #f9f9f9;
+      transition: border-color 0.3s;
+    }
+    select:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    .submit {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .submit:hover {
+      background-color: #45a049;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .cancel {
+      background-color: #333; /* Light black color for cancel button */
+      color: white;
+    }
+    .cancel:hover {
+      background-color: #555; /* Slightly darker on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .green-button {
+      background-color: #4CAF50; /* Green color */
+      color: white;
+    }
+    .green-button:hover {
+      background-color: #45a049; /* Slightly darker green on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f4f4f4;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .result div {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .button-container button {
+      margin: 0 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>Electricity Bill Management</h1>
+  </div>
+  <div class="menu">
+    <a href="#" onclick="navigate('home')">Home</a>
+    <a href="#" onclick="navigate('payment')">Payment</a>
+    <a href="#" onclick="navigate('register')">Register Complaint</a>
+    <a href="#" onclick="navigate('status')">Complaint Status</a>
+  </div>
+  <div class="container">
+    <h1>Register Complaint/Service</h1>
+    <div class="right-side">
+      Welcome <span id="username"></span>,
+      <button class="green-button" onclick="logout()">Logout</button>
+    </div>
+    <div id="content">
+      <!-- Content will be loaded here -->
+    </div>
+  </div>
+
+  <script>
+    // Fetch username from localStorage
+    document.addEventListener('DOMContentLoaded', (event) => {
+      const username = localStorage.getItem('username') || 'Shivam';
+      document.getElementById('username').textContent = username;
+      loadContent(); // Load the initial content
+    });
+
+    // Function to simulate logout
+    function logout() {
+      localStorage.removeItem('username');
+      alert("Logout successful.");
+      window.location.href = 'index.html'; // Redirect to index page
+    }
+
+    // Function to navigate based on user login status
+    function navigate(page) {
+      const username = localStorage.getItem('username');
+      if (page === 'home') {
+        window.location.href = username ? 'dashboard.html' : 'index.html';
+      } else if (page === 'payment') {
+        window.location.href = 'viewBills.html'; // Redirect to viewBill page
+      } else if (page === 'register') {
+        window.location.href = 'registerComplaint.html'; // Redirect to registerComplaint page
+      } else if (page === 'status') {
+        window.location.href = 'complaintStatus.html'; // Redirect to complaintStatus page
+      }
+    }
+
+    // Load initial content (e.g., register complaint form)
+    function loadContent() {
+      const contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = `
+        <div class="details">
+          <div>
+            <label for="complaintType">Complaint/Service Type:</label>
+            <select id="complaintType" onchange="populateCategories()">
+              <option value="billing">Billing related</option>
+              <option value="voltage">Voltage related</option>
+              <option value="disruption">Frequent disruption</option>
+              <option value="streetlight">Street light related</option>
+              <option value="pole">Pole related</option>
+            </select>
+          </div>
+          <div>
+            <label for="category">Category:</label>
+            <select id="category">
+              <!-- Options will be populated based on selected complaint type -->
+            </select>
+          </div>
+        </div>
+        <div class="details">
+          <div>
+            <label for="contactPerson">Contact Person:<span style="color: red;">*</span></label>
+            <input type="text" id="contactPerson" required pattern="[A-Za-z ]+" title="Customer Name must only contain letters" />
+          </div>
+          <div>
+            <label for="landmark">Landmark:</label>
+            <input type="text" id="landmark" />
+          </div>
+        </div>
+        <div class="details">
+          <div>
+            <label for="consumerNo">Consumer No:<span style="color: red;">*</span></label>
+            <input type="text" id="consumerNo" maxlength="13" required pattern="\\d{13}" title="Consumer No must be exactly 13 digits" />
+          </div>
+          <div>
+            <label for="problemDescription">Problem Description:<span style="color: red;">*</span></label>
+            <textarea id="problemDescription" required></textarea>
+          </div>
+        </div>
+        <div class="details">
+          <div>
+            <label for="mobileNumber">Mobile Number:<span style="color: red;">*</span></label>
+            <input type="text" id="mobileNumber" maxlength="10" required pattern="\\d{10}" title="Mobile Number must be exactly 10 digits" />
+          </div>
+          <div>
+            <label for="email">Email:</label>
+            <input type="text" id="email" />
+          </div>
+        </div>
+        <div class="button-container">
+          <button class="submit" onclick="submitComplaint()">Submit</button>
+          <button class="cancel" onclick="cancelComplaint()">Cancel</button>
+        </div>
+      `;
+    }
+
+    // Function to populate categories based on complaint type
+    function populateCategories() {
+      const complaintType = document.getElementById('complaintType').value;
+      const categorySelect = document.getElementById('category');
+      let options = '';
+      
+      switch (complaintType) {
+        case 'billing':
+          options = `<option value="incorrect-bill">Incorrect Bill</option>
+                     <option value="overcharge">Overcharge</option>`;
+          break;
+        case 'voltage':
+          options = `<option value="low-voltage">Low Voltage</option>
+                     <option value="high-voltage">High Voltage</option>`;
+          break;
+        case 'disruption':
+          options = `<option value="frequent-outage">Frequent Outage</option>
+                     <option value="scheduled-maintenance">Scheduled Maintenance</option>`;
+          break;
+        case 'streetlight':
+          options = `<option value="broken-light">Broken Light</option>
+                     <option value="new-light-request">New Light Request</option>`;
+          break;
+        case 'pole':
+          options = `<option value="damaged-pole">Damaged Pole</option>
+                     <option value="new-pole-request">New Pole Request</option>`;
+          break;
+      }
+      categorySelect.innerHTML = options;
+    }
+
+    // Function to generate a unique customer ID
+    function generateUniqueCustomerId() {
+      return 'C' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    }
+
+    // Function to handle complaint submission
+    function submitComplaint() {
+      const complaintType = document.getElementById('complaintType').value;
+      const category = document.getElementById('category').value;
+      const contactPerson = document.getElementById('contactPerson').value;
+      const landmark = document.getElementById('landmark').value;
+      const consumerNo = document.getElementById('consumerNo').value;
+      const problemDescription = document.getElementById('problemDescription').value;
+      const mobileNumber = document.getElementById('mobileNumber').value;
+      const email = document.getElementById('email').value;
+      
+      if (!contactPerson || !consumerNo || !problemDescription || !mobileNumber) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      
+      const complaintId = generateUniqueCustomerId();
+      const resultDiv = document.querySelector('.result');
+      
+      if (resultDiv) {
+        resultDiv.innerHTML = `
+          <div><strong>Complaint ID:</strong> ${complaintId}</div>
+          <div><strong>Complaint Type:</strong> ${complaintType}</div>
+          <div><strong>Category:</strong> ${category}</div>
+          <div><strong>Contact Person:</strong> ${contactPerson}</div>
+          <div><strong>Landmark:</strong> ${landmark}</div>
+          <div><strong>Consumer No:</strong> ${consumerNo}</div>
+          <div><strong>Problem Description:</strong> ${problemDescription}</div>
+          <div><strong>Mobile Number:</strong> ${mobileNumber}</div>
+          <div><strong>Email:</strong> ${email}</div>
+        `;
+      } else {
+        const newResultDiv = document.createElement('div');
+        newResultDiv.className = 'result';
+        newResultDiv.innerHTML = `
+          <div><strong>Complaint ID:</strong> ${complaintId}</div>
+          <div><strong>Complaint Type:</strong> ${complaintType}</div>
+          <div><strong>Category:</strong> ${category}</div>
+          <div><strong>Contact Person:</strong> ${contactPerson}</div>
+          <div><strong>Landmark:</strong> ${landmark}</div>
+          <div><strong>Consumer No:</strong> ${consumerNo}</div>
+          <div><strong>Problem Description:</strong> ${problemDescription}</div>
+          <div><strong>Mobile Number:</strong> ${mobileNumber}</div>
+          <div><strong>Email:</strong> ${email}</div>
+        `;
+        document.querySelector('.container').appendChild(newResultDiv);
+      }
+    }
+
+    // Function to handle complaint cancellation
+    function cancelComplaint() {
+      if (confirm('Are you sure you want to cancel?')) {
+        document.getElementById('contactPerson').value = '';
+        document.getElementById('landmark').value = '';
+        document.getElementById('consumerNo').value = '';
+        document.getElementById('problemDescription').value = '';
+        document.getElementById('mobileNumber').value = '';
+        document.getElementById('email').value = '';
+      }
+    }
+  </script>
+</body>
+</html>
